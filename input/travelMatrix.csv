@@ -1,0 +1,12 @@
+TravelTime,Warehouse,Location1,Location2,Location3,Location4,Location5,Location6,Location7,Location8,Location9,Location10
+Warehouse,0,46,36,34,40,30,24,35,15,24,29
+Location1,32,0,20,22,24,27,15,43,37,21,12
+Location2,43,37,0,31,42,48,43,49,35,38,33
+Location3,39,24,45,0,12,33,26,45,29,20,47
+Location4,29,50,45,18,0,41,44,14,12,49,40
+Location5,43,47,16,24,48,0,35,35,40,30,33
+Location6,20,40,50,13,41,49,0,32,30,15,35
+Location7,32,32,19,13,31,47,23,0,43,14,16
+Location8,19,50,41,47,31,39,23,27,0,33,44
+Location9,39,18,39,10,35,16,33,14,25,0,32
+Location10,31,44,40,21,43,45,50,43,37,11,0
