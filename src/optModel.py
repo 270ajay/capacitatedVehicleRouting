@@ -7,14 +7,14 @@ def buildAndSolveOptimizationModel(inputData, solution):
     model = pulp.LpProblem("Assign_fromOrder_toOrder", pulp.LpMinimize)
 
     assignVars = varsAndCts.createAssignVehicleVars(model, inputData)
-    subtourElimVars = varsAndCts.createSubtourElimVars(model, inputData)
+    currentLoadVars = varsAndCts.createCurrentLoadVars(model, inputData)
 
     varsAndCts.createObjectiveFunction(model, assignVars, inputData)
 
     varsAndCts.createEachOrderOnceCt(model, assignVars, inputData)
     varsAndCts.createCtForCorrectFlow(model, assignVars, inputData)
     varsAndCts.createUpperBoundOnMaxNumberOfRoutesCt(model, assignVars, inputData)
-    varsAndCts.createSubtourElimCt(model, assignVars, subtourElimVars, inputData)
+    varsAndCts.createCapacityAndSubtourElimCt(model, assignVars, currentLoadVars, inputData)
 
 
     if inputData.writeLpFile:

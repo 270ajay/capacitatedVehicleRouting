@@ -10,11 +10,11 @@ import pulp, logging
 
 
 ASSIGN_VAR = "Assign"
-SUBTOUR_ELIM_VAR = "SubtourELim"
+CURRENT_LOAD_VAR = "CurrentLoad"
 EACH_ORDER_ONCE_CT = "EachOrderOnceCt"
 MAX_NUM_OF_ROUTES_CT = "MaxNumOfRoutesCt"
 CORRECT_FLOW_CT = "CorrectFlowCt"
-SUBTOUR_ELIM_CT = "SubtourElimCt"
+CAPACITY_SUBTOUR_ELIM_CT = "CapacityAndSubtourElimCt"
 
 
 
@@ -44,22 +44,22 @@ def createAssignVehicleVars(model, inputData):
 
 
 
-def createSubtourElimVars(model, inputData):
+def createCurrentLoadVars(model, inputData):
 
-    subtourElimVars = {}
+    currentLoadVars = {}
     for order in inputData.demands:
 
-        varNameInLpFile = SUBTOUR_ELIM_VAR + "_" + str(order)
+        varNameInLpFile = CURRENT_LOAD_VAR + "_" + str(order)
         if order == inputData.depot:
             variable = pulp.LpVariable(varNameInLpFile, lowBound=0, upBound=inputData.vehicleCapacity, cat=pulp.LpContinuous)
         else:
             variable = pulp.LpVariable(varNameInLpFile, lowBound=inputData.demands[order], upBound=inputData.vehicleCapacity, cat=pulp.LpContinuous)
 
-        subtourElimVars[order] = variable
+        currentLoadVars[order] = variable
         model.addVariable(variable)
 
-    logging.info("Created sub-tour elimination variables")
-    return subtourElimVars
+    logging.info("Created current load variables")
+    return currentLoadVars
 
 
 
@@ -160,7 +160,16 @@ def createCtForCorrectFlow(model, assignVars, inputData):
 
 
 
-def createSubtourElimCt(model, assignVars, subtourElimVars, inputData):
+def createCapacityAndSubtourElimCt(model, assignVars, subtourElimVars, inputData):
+    '''
+    currentLoad_i +
+    demand(i) * x(i,j)
+    - MaxCapacity(1-x(i,j))
+    <= currentLoad_j
+
+    Prevents subtour:
+    i -> j -> i  is not possible because currentLoad_i <= currentLoad_j <= currentLoad_i is not possible
+    '''
 
     for fromOrder in inputData.demands:
         for toOrder in inputData.demands:
@@ -174,6 +183,6 @@ def createSubtourElimCt(model, assignVars, subtourElimVars, inputData):
             coeffVarList = [subtourElimVars[fromOrder] - subtourElimVars[toOrder]
                       + (inputData.demands[toOrder] * assignVars[(fromOrder,toOrder)])
                       + (inputData.vehicleCapacity * assignVars[(fromOrder,toOrder)])]
-            model += pulp.lpSum(coeffVarList) <= inputData.vehicleCapacity, SUBTOUR_ELIM_CT + "_" + fromOrder + "_" + toOrder
+            model += pulp.lpSum(coeffVarList) <= inputData.vehicleCapacity, CAPACITY_SUBTOUR_ELIM_CT + "_" + fromOrder + "_" + toOrder
 
     logging.info("Subtour elimination constraints added")

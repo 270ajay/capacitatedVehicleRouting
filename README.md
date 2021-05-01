@@ -53,29 +53,29 @@ EachOrderOnceCt_Order7: Assign_Order7_Order5 + Assign_Order7_Order6
  + Assign_Order7_Warehouse = 1
 MaxNumOfRoutesCt_Warehouse: Assign_Warehouse_Order5 + Assign_Warehouse_Order6
  + Assign_Warehouse_Order7 <= 10
-SubtourElimCt_Order5_Order6: 110 Assign_Order5_Order6 + SubtourELim_Order5
- - SubtourELim_Order6 <= 100
-SubtourElimCt_Order5_Order7: 120 Assign_Order5_Order7 + SubtourELim_Order5
- - SubtourELim_Order7 <= 100
-SubtourElimCt_Order6_Order5: 130 Assign_Order6_Order5 - SubtourELim_Order5
- + SubtourELim_Order6 <= 100
-SubtourElimCt_Order6_Order7: 120 Assign_Order6_Order7 + SubtourELim_Order6
- - SubtourELim_Order7 <= 100
-SubtourElimCt_Order7_Order5: 130 Assign_Order7_Order5 - SubtourELim_Order5
- + SubtourELim_Order7 <= 100
-SubtourElimCt_Order7_Order6: 110 Assign_Order7_Order6 - SubtourELim_Order6
- + SubtourELim_Order7 <= 100
-SubtourElimCt_Warehouse_Order5: 130 Assign_Warehouse_Order5
- - SubtourELim_Order5 + SubtourELim_Warehouse <= 100
-SubtourElimCt_Warehouse_Order6: 110 Assign_Warehouse_Order6
- - SubtourELim_Order6 + SubtourELim_Warehouse <= 100
-SubtourElimCt_Warehouse_Order7: 120 Assign_Warehouse_Order7
- - SubtourELim_Order7 + SubtourELim_Warehouse <= 100
+CapacityAndSubtourElimCt_Order5_Order6: 110 Assign_Order5_Order6 + CurrentLoad_Order5
+ - CurrentLoad_Order6 <= 100
+CapacityAndSubtourElimCt_Order5_Order7: 120 Assign_Order5_Order7 + CurrentLoad_Order5
+ - CurrentLoad_Order7 <= 100
+CapacityAndSubtourElimCt_Order6_Order5: 130 Assign_Order6_Order5 - CurrentLoad_Order5
+ + CurrentLoad_Order6 <= 100
+CapacityAndSubtourElimCt_Order6_Order7: 120 Assign_Order6_Order7 + CurrentLoad_Order6
+ - CurrentLoad_Order7 <= 100
+CapacityAndSubtourElimCt_Order7_Order5: 130 Assign_Order7_Order5 - CurrentLoad_Order5
+ + CurrentLoad_Order7 <= 100
+CapacityAndSubtourElimCt_Order7_Order6: 110 Assign_Order7_Order6 - CurrentLoad_Order6
+ + CurrentLoad_Order7 <= 100
+CapacityAndSubtourElimCt_Warehouse_Order5: 130 Assign_Warehouse_Order5
+ - CurrentLoad_Order5 + CurrentLoad_Warehouse <= 100
+CapacityAndSubtourElimCt_Warehouse_Order6: 110 Assign_Warehouse_Order6
+ - CurrentLoad_Order6 + CurrentLoad_Warehouse <= 100
+CapacityAndSubtourElimCt_Warehouse_Order7: 120 Assign_Warehouse_Order7
+ - CurrentLoad_Order7 + CurrentLoad_Warehouse <= 100
 Bounds
-30 <= SubtourELim_Order5 <= 100
-10 <= SubtourELim_Order6 <= 100
-20 <= SubtourELim_Order7 <= 100
-SubtourELim_Warehouse <= 100
+30 <= CurrentLoad_Order5 <= 100
+10 <= CurrentLoad_Order6 <= 100
+20 <= CurrentLoad_Order7 <= 100
+CurrentLoad_Warehouse <= 100
 Binaries
 Assign_Order5_Order6
 Assign_Order5_Order7
